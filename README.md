@@ -15,6 +15,11 @@ ACTION=="bind|unbind", ENV{HID_NAME}=="Magic Trackpad 2", RUN+="/usr/local/bin/m
 ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{HID_NAME}=="Apple Inc. Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
 ```
 
+Reload the udev rules:
+```bash
+sudo udevadm control --reload-rules
+```
+
 ## The script itself
 
 `/usr/local/bin/magictrackpad.sh`:
@@ -34,3 +39,9 @@ su -c "DISPLAY=':0' libinput-gestures 2>/dev/null" - USER &
 ```
 
 Be sure to replace `USER` with your own username.
+
+Mark the script as executable and own by root:
+```bash
+sudo chown root: /usr/local/bin/magictrackpad.sh
+sudo chmod 755 /usr/local/bin/magictrackpad.sh
+```
