@@ -45,3 +45,17 @@ Mark the script as executable and own by root:
 sudo chown root: /usr/local/bin/magictrackpad.sh
 sudo chmod 755 /usr/local/bin/magictrackpad.sh
 ```
+
+# Libinput Quirks
+
+In order to get the touchpad to work properly, create the following file:
+
+`/etc/libinput/local-overrides.quirks`:
+
+```code
+[Touchpad touch override]
+MatchUdevType=touchpad
+MatchName=*Magic Trackpad 2
+AttrPressureRange=2:0
+AttrTouchSizeRange=20:10
+```
