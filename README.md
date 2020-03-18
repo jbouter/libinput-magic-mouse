@@ -11,8 +11,7 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 `/etc/udev/rules.d/20-magic-trackpad.rules`:
 
 ```console
-ACTION=="bind|unbind", ENV{HID_NAME}=="Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{HID_NAME}=="Apple Inc. Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/local/bin/magictrackpad.sh"
 ```
 
 Reload the udev rules:

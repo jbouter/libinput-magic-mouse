@@ -1,0 +1,2 @@
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/local/bin/magictrackpad.sh"
+
