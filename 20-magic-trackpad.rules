@@ -1,2 +1,3 @@
 ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/local/bin/magictrackpad.sh"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
 
