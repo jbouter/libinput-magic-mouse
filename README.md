@@ -12,6 +12,7 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 
 ```console
 ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/local/bin/magictrackpad.sh"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
 ```
 
 Reload the udev rules:
