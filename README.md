@@ -1,7 +1,9 @@
 # libinput-magic-mouse
 
 ## Prerequisites
-This guide is written for Ubuntu, when using [libinput-gestures (github)](https://github.com/bulletmark/libinput-gestures) in combination with an Apple Magic Trackpad 2.
+This guide is written for Ubuntu and Arch, when using [libinput-gestures (github)](https://github.com/bulletmark/libinput-gestures) in combination with an Apple Magic Trackpad 2.
+
+When using arch, installing `libinput-gestures-git` through AUR is recommended.
 
 This works with both USB and Bluetooth. Improvements are welcome.
 
@@ -11,8 +13,8 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 `/etc/udev/rules.d/20-magic-trackpad.rules`:
 
 ```console
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/local/bin/magictrackpad.sh"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/usr/local/bin/magictrackpad.sh"
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/bin/systemctl restart magictrackpad"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/usr/bin/systemctl restart magictrackpad"
 ```
 
 Reload the udev rules:
@@ -20,33 +22,35 @@ Reload the udev rules:
 sudo udevadm control --reload-rules
 ```
 
-## The script itself
+## systemd service
 
-`/usr/local/bin/magictrackpad.sh`:
+place `/etc/systemd/system/magictrackpad.service`:
 
 ```bash
-#!/bin/bash
+[Unit]
+Description=Libinput support for MagicMouse
 
-export DISPLAY=":0"
+[Service]
+User=jeffrey
+Group=jeffrey
+Environment="DISPLAY=:0"
+ExecStartPre=-/usr/bin/killall libinput-debug-events
+ExecStart=/usr/bin/libinput-gestures
+Restart=always
+Type=simple
 
-# Clean old libinputs
-for pid in $(pgrep libinput); do 
-	kill $pid; 
-done 
-
-# Start libinput-gestures again
-su -c "DISPLAY=':0' libinput-gestures 2>/dev/null" - USER &
+[Install]
+WantedBy=multi-user.target
 ```
 
-Be sure to replace `USER` with your own username.
+And enable the service:
 
-Mark the script as executable and own by root:
 ```bash
-sudo chown root: /usr/local/bin/magictrackpad.sh
-sudo chmod 755 /usr/local/bin/magictrackpad.sh
+systemctl daemon-reload
+systemctl enable --now magictrackpad.service
 ```
 
-# Libinput Quirks
+## Libinput Quirks
 
 In order to get the touchpad to work properly, create the following file:
 
