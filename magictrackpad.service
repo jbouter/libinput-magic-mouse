@@ -1,0 +1,14 @@
+[Unit]
+Description=Libinput support for MagicMouse
+
+[Service]
+User=jeffrey
+Group=jeffrey
+Environment="DISPLAY=:0"
+ExecStartPre=-/usr/bin/killall libinput-debug-events
+ExecStart=/usr/bin/libinput-gestures
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
