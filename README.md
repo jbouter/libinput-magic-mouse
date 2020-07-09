@@ -63,3 +63,32 @@ MatchName=*Magic Trackpad 2
 AttrPressureRange=2:0
 AttrTouchSizeRange=20:10
 ```
+
+## Xorg configuration
+
+Last time I tested the touchpad with KDE Plasma on 20.04 (Neon), I needed to configure the Trackpad through xorg settings
+
+```bash
+mkdir -p /etc/X11/xorg.conf.d
+```
+
+`/etc/X11/xorg.conf.d/10-libinput.conf`:
+
+```code
+Section "InputClass"
+  Identifier "libinput touchpad catchall"
+  MatchIsTouchpad "on"
+  MatchDevicePath "/dev/input/event*"
+  Option "Tapping" "True"
+  Option "TappingDrug" "True"
+  Option "DisableWhileTyping" "True"
+  Option "AccelProfile" "adaptive"
+  Option "AccelSpeed" "0.3"
+  Option "AccelerationNumerator" "2"
+  Option "AccelerationDenominator" "1"
+  Option "AccelerationThreshold" "4"
+  Option "AdaptiveDeceleration" "2"
+  Option "NaturalScrolling" "1"
+  Driver "libinput"
+EndSection
+```
