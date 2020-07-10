@@ -13,9 +13,11 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 `/etc/udev/rules.d/20-magic-trackpad.rules`:
 
 ```console
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/usr/bin/systemctl restart magictrackpad"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/usr/bin/systemctl restart magictrackpad"
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart magictrackpad"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart magictrackpad"
 ```
+
+Note: The systemctl path varies per distribution. For Arch, this should be `/usr/bin/systemctl`, whereas for Debian based distros this is `/bin/systemctl`
 
 Reload the udev rules:
 ```bash
