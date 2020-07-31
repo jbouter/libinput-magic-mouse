@@ -1,0 +1,14 @@
+[Unit]
+Description=Libinput Gestures
+
+[Service]
+User=jeffrey
+Group=jeffrey
+Environment="DISPLAY=:0"
+ExecStart=/usr/bin/libinput-gestures-setup start
+ExecStart=/usr/bin/libinput-gestures-setup stop
+ExecRestart=/usr/bin/libinput-gestures-setup restart
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

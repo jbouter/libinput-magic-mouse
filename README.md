@@ -13,8 +13,8 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 `/etc/udev/rules.d/20-magic-trackpad.rules`:
 
 ```console
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart magictrackpad"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart magictrackpad"
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart libinput-gestures"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart libinput-gestures"
 ```
 
 Note: The systemctl path varies per distribution. For Arch, this should be `/usr/bin/systemctl`, whereas for Debian based distros this is `/bin/systemctl`
@@ -26,19 +26,19 @@ sudo udevadm control --reload-rules
 
 ## systemd service
 
-place `/etc/systemd/system/magictrackpad.service`:
+place `/etc/systemd/system/libinput-gestures.service`:
 
-```bash
+```systemd
 [Unit]
-Description=Libinput support for MagicMouse
+Description=Libinput Gestures
 
 [Service]
 User=jeffrey
 Group=jeffrey
 Environment="DISPLAY=:0"
-ExecStartPre=-/usr/bin/killall libinput-debug-events
-ExecStart=/usr/bin/libinput-gestures
-Restart=always
+ExecStart=/usr/bin/libinput-gestures-setup start
+ExecStart=/usr/bin/libinput-gestures-setup stop
+ExecRestart=/usr/bin/libinput-gestures-setup restart
 Type=simple
 
 [Install]
