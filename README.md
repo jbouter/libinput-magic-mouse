@@ -45,11 +45,13 @@ Type=forking
 WantedBy=multi-user.target
 ```
 
+*Obviously, adjust the `User` and `Group` settings*
+
 And enable the service:
 
 ```bash
 systemctl daemon-reload
-systemctl enable --now magictrackpad.service
+systemctl enable --now libinput-gestures.service
 ```
 
 ## Libinput Quirks
