@@ -37,9 +37,9 @@ User=jeffrey
 Group=jeffrey
 Environment="DISPLAY=:0"
 ExecStart=/usr/bin/libinput-gestures-setup start
-ExecStart=/usr/bin/libinput-gestures-setup stop
-ExecRestart=/usr/bin/libinput-gestures-setup restart
-Type=simple
+ExecStop=/usr/bin/libinput-gestures-setup stop
+ExecReload=/usr/bin/libinput-gestures-setup restart
+Type=forking
 
 [Install]
 WantedBy=multi-user.target

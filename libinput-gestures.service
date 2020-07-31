@@ -1,5 +1,5 @@
 [Unit]
-Description=Libinput support for MagicMouse
+Description=Libinput Gestures
 
 [Service]
 User=jeffrey
