@@ -1,11 +1,18 @@
 # libinput-magic-mouse
 
 ## Prerequisites
-This guide is written for Ubuntu and Arch, when using [libinput-gestures (github)](https://github.com/bulletmark/libinput-gestures) in combination with an Apple Magic Trackpad 2.
 
-When using arch, installing `libinput-gestures-git` through AUR is recommended.
+As of recently, this guide is only written for Ubuntu. But it shouldn't be too hard to adjust for other distributions.
 
-This works with both USB and Bluetooth. Improvements are welcome.
+This guide used to be based upon libinput-gestures, but is now using [fusuma](https://github.com/iberianpig/fusuma)
+
+Please install fusuma according to its installation guide. In short:
+
+```bash
+sudo gpasswd -a $USER input
+sudo apt install ruby libinput-tools wmctrl
+sudo gem install fusuma fusuma-plugin-wmctrl fusuma-plugin-keypress
+```
 
 ## udev rules
 Write the udev rules to detect attaching and detaching of the trackpad:
@@ -13,8 +20,8 @@ Write the udev rules to detect attaching and detaching of the trackpad:
 `/etc/udev/rules.d/20-magic-trackpad.rules`:
 
 ```console
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart libinput-gestures"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart libinput-gestures"
+ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart fusuma"
+ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart fusuma"
 ```
 
 Note: The systemctl path varies per distribution. For Arch, this should be `/usr/bin/systemctl`, whereas for Debian based distros this is `/bin/systemctl`
@@ -24,22 +31,37 @@ Reload the udev rules:
 sudo udevadm control --reload-rules
 ```
 
-## systemd service
+## Configuration for fusuma
 
-place `/etc/systemd/system/libinput-gestures.service`:
+```bash
+mkdir -p ~/.config/fusuma
+vim ~/.config/fusuma/config.yml
+```
+
+Example configurations are available on the [fusuma](https://github.com/iberianpig/fusuma) repository. Mine is included inside this repo. To use it:
+
+```bash
+cp -v fusuma-config.yml ~/.config/fusuma/config.yml
+```
+
+## systemd service for fusuma
+
+place `/etc/systemd/system/fusuma.service`:
 
 ```systemd
 [Unit]
-Description=Libinput Gestures
+Description=Fusuma
+StartLimitIntervalSec=500
+StartLimitBurst=5
 
 [Service]
 User=jeffrey
 Group=jeffrey
 Environment="DISPLAY=:0"
-ExecStart=/usr/bin/libinput-gestures-setup start
-ExecStop=/usr/bin/libinput-gestures-setup stop
-ExecReload=/usr/bin/libinput-gestures-setup restart
-Type=forking
+ExecStart=/usr/local/bin/fusuma
+Type=simple
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
@@ -51,7 +73,7 @@ And enable the service:
 
 ```bash
 systemctl daemon-reload
-systemctl enable --now libinput-gestures.service
+systemctl enable --now fusuma.service
 ```
 
 ## Libinput Quirks
