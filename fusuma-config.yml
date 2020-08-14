@@ -15,28 +15,23 @@ swipe:
     left:
       workspace: 'next' # Switch to next workspace
       keypress:
-        LEFTSHIFT: 
-          window: 'next' # Move window to next workspace
-        LEFTMETA:
-          command: 'xdotool key --clearmodifiers super+ctrl+Left' # Move window to left side
+        LEFTSHIFT:
+          command: 'xdotool key --clearmodifiers ctrl+alt+shift+Left' # Move window to left side
     right:
       workspace: 'prev' # Switch to previous workspace
       keypress:
-        LEFTSHIFT: 
-          window: 'prev' # Move window to previous workspace
-        LEFTMETA:
-          command: 'xdotool key --clearmodifiers super+ctrl+Right'  # Move window to right side
+        LEFTSHIFT:
+          command: 'xdotool key --clearmodifiers ctrl+alt+shift+Right' # Move window to right side
     up:
       command: 'xdotool key Control_L+F10' # Workspace overview
       keypress:
+        LEFTSHIFT:
+          command: 'xdotool key --clearmodifiers Control_L+F8' # All workspace overview
         LEFTMETA:
           window:
             maximized: 'toggle' # Toggle Maximize/Unmaximize Window
     down:
-      command: 'xdotool key Shift_L+Alt_L+Tab' #aaaaa
-      keypress:
-        LEFTMETA:
-          window: 'close' # Close window
+      command: 'xdotool key Super_L' #aaaaa
 
 pinch:
   2:
