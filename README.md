@@ -14,23 +14,6 @@ sudo apt install ruby libinput-tools wmctrl
 sudo gem install fusuma fusuma-plugin-wmctrl fusuma-plugin-keypress
 ```
 
-## udev rules
-Write the udev rules to detect attaching and detaching of the trackpad:
-
-`/etc/udev/rules.d/20-magic-trackpad.rules`:
-
-```console
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart fusuma"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart fusuma"
-```
-
-Note: The systemctl path varies per distribution. For Arch, this should be `/usr/bin/systemctl`, whereas for Debian based distros this is `/bin/systemctl`
-
-Reload the udev rules:
-```bash
-sudo udevadm control --reload-rules
-```
-
 ## Configuration for fusuma
 
 ```bash

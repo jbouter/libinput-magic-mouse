@@ -1,2 +1,0 @@
-ACTION=="bind|unbind", ENV{SUBSYSTEM}=="hid", ENV{DRIVER}=="magicmouse", RUN+="/bin/systemctl restart libinput-gestures"
-ACTION=="remove", ENV{SUBSYSTEM}=="input", ENV{NAME}="Apple Inc. Magic Trackpad 2", RUN+="/bin/systemctl restart libinput-gestures"
