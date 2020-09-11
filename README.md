@@ -10,8 +10,8 @@ Please install fusuma according to its installation guide. In short:
 
 ```bash
 sudo gpasswd -a $USER input
-sudo apt install ruby libinput-tools wmctrl
-sudo gem install fusuma fusuma-plugin-wmctrl fusuma-plugin-keypress
+sudo apt install ruby libinput-tools wmctrl libevdev-dev ruby-dev
+sudo gem install fusuma fusuma-plugin-wmctrl fusuma-plugin-keypress fusuma-plugin-sendkey
 ```
 
 ## Configuration for fusuma
