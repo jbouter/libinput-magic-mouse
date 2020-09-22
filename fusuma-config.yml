@@ -1,74 +1,62 @@
 swipe:
   3:
     left:
-      #command: 'xdotool key alt+Right' # History forward
+      # History forward
       sendkey: "LEFTALT+RIGHT"
     right:
-      #command: 'xdotool key alt+Left' # History back
+      # History back
       sendkey: "LEFTALT+LEFT"
-    up:
-      #command: 'xdotool key ctrl+t' # Open new tab
-      sendkey: "LEFTCTRL+T"
-      keypress:
-        LEFTSHIFT:
-          #command: 'xdotool key --clearmodifiers ctrl+shift+t' # Open last closed tab
-          sendkey: "LEFTCTRL+LEFTSHIFT+T"
-    down:
-      #command: 'xdotool key ctrl+w' # Close tab
-      sendkey: "LEFTCTRL+W"
-      keypress:
-        LEFTSHIFT:
-          #command: 'xdotool key --clearmodifiers ctrl+shift+t' # Open last closed tab
-          sendkey: "LEFTCTRL+LEFTSHIFT+T"
   4:
     left:
-      workspace: 'next' # Switch to next workspace
+      # Switch to next workspace
+      workspace: 'next'
       keypress:
+        # Move window to next workspace
         LEFTSHIFT:
-          #command: 'xdotool key --clearmodifiers ctrl+alt+shift+Right' # Move window to right side
           sendkey: "LEFTCTRL+LEFTALT+LEFTSHIFT+RIGHT"
     right:
-      workspace: 'prev' # Switch to previous workspace
+      # Switch to previous workspace
+      workspace: 'prev'
       keypress:
         LEFTSHIFT:
-          #command: 'xdotool key --clearmodifiers ctrl+alt+shift+Left' # Move window to left side
+          # Move window to previous workspace
           sendkey: "LEFTCTRL+LEFTALT+LEFTSHIFT+LEFT"
     up:
+      # Switch to next workspace
       workspace: 'next'
       keypress:
         LEFTSHIFT:
+          # Move window to next workspace
           sendkey: "LEFTCTRL+LEFTALT+LEFTSHIFT+UP"
     down:
+      # Switch to previous workspace
       workspace: "prev"
       keypress:
         LEFTSHIFT:
+          # Move window to previous workspace
           sendkey: "LEFTCTRL+LEFTALT+LEFTSHIFT+DOWN"
 
 pinch:
   2:
     in:
-      #command: 'xdotool keydown ctrl click 4 keyup ctrl' # Zoom in
+      # Lock the screen
       sendkey: "LEFTMETA+L"
     #out:
     #  command: 'xdotool keydown ctrl click 5 keyup ctrl' # Zoom out
   3:
     in:
-      #command: 'xdotool key ctrl+F9' # Window overview
+      # Open overview
       sendkey: "LEFTMETA"
   4:
     in:
-      #command: 'xdotool key ctrl+F9' # Window overview
+      # Open overview
       sendkey: "LEFTMETA"
-      #out:
-      #command: 'xdotool key ctrl+F9' # Workspace overview
 
 rotate:
   3:
     clockwise:
-      #command: 'xdotool key XF86MonBrightnessUp' # Brightness up
       sendkey: "BRIGHTNESSUP"
     counterclockwise:
-      #command: 'xdotool key XF86MonBrightnessDown' # Brightness down
       sendkey: "BRIGHTNESSDOWN"
 
 plugin:
